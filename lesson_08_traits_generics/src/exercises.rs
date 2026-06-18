@@ -31,7 +31,11 @@ pub fn exercise_2<T: PartialOrd>(left: T, right: T) -> T {
 }
 
 /// Return a string that combines `Display` and `Debug` output using a `where` clause.
-pub fn exercise_3<T, U>(label: T, value: U) -> String where T: Display, U: Debug {
+pub fn exercise_3<T, U>(label: T, value: U) -> String
+where
+    T: Display,
+    U: Debug,
+{
     // TODO: Replace this placeholder with your own implementation.
     todo!("Your implementation here")
 }

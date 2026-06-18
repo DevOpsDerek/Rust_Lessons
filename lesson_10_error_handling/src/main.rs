@@ -24,7 +24,7 @@ fn main() {
     println!("Lesson 10: Error Handling");
     println!("-------------------------");
 
-    let values = vec!["10", "20", "30"];
+    let values = ["10", "20", "30"];
     let first = values.first();
     match first {
         Some(value) => println!("First value with Option: {value}"),
@@ -36,16 +36,22 @@ fn main() {
         Err(error) => println!("Error while parsing: {error}"),
     }
 
-    let safe_value = Some("ready").expect("This example always contains a value");
-    println!("Value from expect: {safe_value}");
+    // LEARN: expect() and unwrap_or() show how to safely extract Option values.
+    // In real code Option comes from functions that might return nothing.
+    let names = ["Alice", "Bob"];
+    let first_name = names.first().expect("names list is never empty");
+    println!("Value from expect: {first_name}");
 
-    let fallback = Some(99).unwrap_or(0);
+    let empty: &[i32] = &[];
+    let fallback = empty.first().copied().unwrap_or(0);
     println!("unwrap_or fallback example: {fallback}");
 }
 
 fn add_parsed_numbers(left: &str, right: &str) -> Result<i32, ParseLessonError> {
     // LEARN: `?` returns early if parsing fails.
     let left_number: i32 = left.parse().map_err(|source| ParseLessonError { source })?;
-    let right_number: i32 = right.parse().map_err(|source| ParseLessonError { source })?;
+    let right_number: i32 = right
+        .parse()
+        .map_err(|source| ParseLessonError { source })?;
     Ok(left_number + right_number)
 }

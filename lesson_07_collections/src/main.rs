@@ -9,10 +9,8 @@ fn main() {
     println!("Lesson 07: Collections: Vec & HashMap");
     println!("--------------------------------------");
 
-    let mut numbers = Vec::new();
-    numbers.push(10);
-    numbers.push(20);
-    numbers.push(30);
+    // LEARN: vec! is shorthand for Vec::new() + push calls — both produce the same Vec.
+    let mut numbers = vec![10, 20, 30];
     println!("Vector after pushes: {:?}", numbers);
 
     let first = numbers[0];
@@ -33,7 +31,9 @@ fn main() {
     let mut scores: HashMap<String, u32> = HashMap::new();
     scores.insert(String::from("Ava"), 95);
     scores.insert(String::from("Noah"), 88);
-    scores.entry(String::from("Ava")).and_modify(|score| *score += 1);
+    scores
+        .entry(String::from("Ava"))
+        .and_modify(|score| *score += 1);
 
     for (name, score) in &scores {
         println!("{name} => {score}");

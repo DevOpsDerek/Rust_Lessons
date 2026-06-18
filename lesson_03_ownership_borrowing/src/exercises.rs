@@ -1,4 +1,5 @@
 #![allow(dead_code)]
+#![allow(clippy::ptr_arg)] // Teaching stubs: &mut String is intentional for beginners
 
 /// Take ownership of a `String` and return its length as `usize`.
 pub fn exercise_1(text: String) -> usize {

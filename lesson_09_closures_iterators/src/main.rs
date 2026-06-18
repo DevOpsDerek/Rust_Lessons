@@ -26,11 +26,15 @@ fn main() {
         println!("Increment twice: {}", increment());
     }
 
-    let words = vec!["rust", "makes", "loops", "expressive"];
-    let long_words: Vec<&str> = words.iter().copied().filter(|word| word.len() > 4).collect();
+    let words = ["rust", "makes", "loops", "expressive"];
+    let long_words: Vec<&str> = words
+        .iter()
+        .copied()
+        .filter(|word| word.len() > 4)
+        .collect();
     println!("Filtered words: {:?}", long_words);
 
-    let numbers = vec![1, 2, 3, 4, 5];
+    let numbers = [1, 2, 3, 4, 5];
     let processed: Vec<i32> = numbers
         .iter()
         .map(|value| value * 2)
@@ -38,6 +42,13 @@ fn main() {
         .collect();
     println!("Mapped and filtered numbers: {:?}", processed);
 
-    let total = numbers.iter().fold(0, |acc, value| acc + value);
-    println!("Fold total: {total}");
+    // LEARN: fold is useful when you need custom accumulation (here: building a string).
+    let sentence = numbers.iter().fold(String::new(), |mut acc, value| {
+        if !acc.is_empty() {
+            acc.push_str(", ");
+        }
+        acc.push_str(&value.to_string());
+        acc
+    });
+    println!("Fold into string: {sentence}");
 }

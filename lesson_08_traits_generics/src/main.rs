@@ -43,7 +43,11 @@ fn main() {
 }
 
 fn largest<T: PartialOrd>(left: T, right: T) -> T {
-    if left >= right { left } else { right }
+    if left >= right {
+        left
+    } else {
+        right
+    }
 }
 
 fn show_display_and_debug<T, U>(label: T, value: &U)

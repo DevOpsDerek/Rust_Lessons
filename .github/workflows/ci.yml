@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Cancel in-progress runs for the same branch on new pushes
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+  RUST_BACKTRACE: 1
+
+jobs:
+  # ── Job 1: Lint ──────────────────────────────────────────────────────────────
+  lint:
+    name: Lint (clippy + rustfmt)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install stable Rust with clippy & rustfmt
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy, rustfmt
+
+      - name: Cache Cargo registry & build artifacts
+        uses: Swatinem/rust-cache@v2
+
+      - name: Check formatting
+        run: cargo fmt --all -- --check
+
+      - name: Run Clippy (warnings = errors)
+        run: cargo clippy --workspace --all-targets -- -D warnings
+
+  # ── Job 2: Build & Test matrix ───────────────────────────────────────────────
+  test:
+    name: Test (Rust ${{ matrix.rust }} / ${{ matrix.os }})
+    needs: lint
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        rust: [stable, "1.75"]   # stable + minimum supported version (edition 2021 = 1.56+)
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Rust ${{ matrix.rust }}
+        uses: dtolnay/rust-toolchain@${{ matrix.rust }}
+
+      - name: Cache Cargo registry & build artifacts
+        uses: Swatinem/rust-cache@v2
+        with:
+          key: ${{ matrix.rust }}
+
+      - name: Build workspace
+        run: cargo build --workspace
+
+      - name: Run tests
+        run: cargo test --workspace --verbose

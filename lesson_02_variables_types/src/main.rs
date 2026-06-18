@@ -25,7 +25,7 @@ fn main() {
     // LEARN: These are common scalar types.
     let temperature_celsius: i32 = 21;
     let distance_km: u64 = 150;
-    let pi_estimate: f64 = 3.14159;
+    let pi_estimate: f64 = std::f64::consts::PI;
     let is_learning: bool = true;
     let grade: char = 'A';
     println!(

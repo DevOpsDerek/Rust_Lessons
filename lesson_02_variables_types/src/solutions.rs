@@ -19,3 +19,26 @@ pub fn exercise_3() -> String {
     message.push_str(" from Rust");
     message
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_exercise_2_adds_i32_and_u8() {
+        assert_eq!(exercise_2(10, 5), 15);
+        assert_eq!(exercise_2(0, 255), 255);
+    }
+
+    #[test]
+    fn test_exercise_2_negative_left() {
+        assert_eq!(exercise_2(-3, 3), 0);
+    }
+
+    #[test]
+    fn test_exercise_3_returns_extended_string() {
+        let result = exercise_3();
+        assert!(result.starts_with("Hello"));
+        assert!(result.contains("Rust"));
+    }
+}

@@ -1,4 +1,5 @@
 #![allow(dead_code)]
+#![allow(clippy::ptr_arg)] // Teaching stubs: &mut Vec is intentional for beginners
 
 use std::collections::HashMap;
 
