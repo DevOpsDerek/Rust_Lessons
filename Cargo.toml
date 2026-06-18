@@ -1,0 +1,14 @@
+[workspace]
+members = [
+    "lesson_01_hello_world",
+    "lesson_02_variables_types",
+    "lesson_03_ownership_borrowing",
+    "lesson_04_functions_control_flow",
+    "lesson_05_structs_methods",
+    "lesson_06_enums_pattern_matching",
+    "lesson_07_collections",
+    "lesson_08_traits_generics",
+    "lesson_09_closures_iterators",
+    "lesson_10_error_handling",
+]
+resolver = "2"
