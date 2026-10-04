@@ -57,6 +57,10 @@ cargo build --workspace
 
 ## Maintaining GitHub automation
 
+CI builds and tests with stable Rust and Rust 1.75 on Linux and macOS.
+Keep `Cargo.lock` in format version 3 so Cargo 1.75 can read it; do not upgrade
+the lockfile format when updating it with a newer Cargo release.
+
 The central validator checks Actions configuration and compiles the manual
 documentation-upkeep workflow with gh-aw v0.89.21. It does not replace Rust CI.
 After editing `.github/workflows/documentation-upkeep.md`, run:
