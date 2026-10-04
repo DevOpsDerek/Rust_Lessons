@@ -54,3 +54,22 @@ cargo build --workspace
 ## Helpful reference
 
 - [The Rust Programming Language](https://doc.rust-lang.org/book/)
+
+## Maintaining GitHub automation
+
+The central validator checks Actions configuration and compiles the manual
+documentation-upkeep workflow with gh-aw v0.89.21. It does not replace Rust CI.
+After editing `.github/workflows/documentation-upkeep.md`, run:
+
+```bash
+gh aw compile documentation-upkeep --validate --actionlint --no-check-update
+```
+
+Commit the Markdown source and generated lock together. If cached imports under
+`.github/aw/imports/` or the generated lock conflict during a merge, resolve the
+Markdown source first, deliberately choosing the central commit SHA. Remove only
+the conflicted cached import files and regenerate them and the lock with the
+command above; do not hand-merge generated content or silently prefer either
+side. Review the regenerated diff, including the README-only safe-output
+allowlist, before staging it. Cached imports use normal Git conflict handling,
+not a custom merge driver.
