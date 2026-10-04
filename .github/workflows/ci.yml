@@ -25,33 +25,40 @@ jobs:
     permissions:
       contents: read
 
-  # ── Job 1: Lint ──────────────────────────────────────────────────────────────
+  # ── Job 1: Formatting ────────────────────────────────────────────────────────
+  format:
+    name: Formatting (rustfmt)
+    uses: DevOpsDerek/workflows/.github/workflows/lint-rust.yml@30f86d7d8536364b0a31de4bc66214b39e8785bb
+    with:
+      rust-version: "1.75.0"
+      working-directory: .
+    permissions:
+      contents: read
+
+  # ── Job 2: Clippy ────────────────────────────────────────────────────────────
   lint:
-    name: Lint (clippy + rustfmt)
+    name: Lint (clippy)
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install stable Rust with clippy & rustfmt
+      - name: Install stable Rust with clippy
         uses: dtolnay/rust-toolchain@stable
         with:
-          components: clippy, rustfmt
+          components: clippy
 
       - name: Cache Cargo registry & build artifacts
         uses: Swatinem/rust-cache@v2
 
-      - name: Check formatting
-        run: cargo fmt --all -- --check
-
       - name: Run Clippy (warnings = errors)
         run: cargo clippy --workspace --all-targets -- -D warnings
 
-  # ── Job 2: Build & Test matrix ───────────────────────────────────────────────
+  # ── Job 3: Build & Test matrix ───────────────────────────────────────────────
   test:
     name: Test (Rust ${{ matrix.rust }} / ${{ matrix.os }})
-    needs: lint
+    needs: [format, lint]
     runs-on: ${{ matrix.os }}
 
     strategy:
