@@ -28,7 +28,7 @@ jobs:
   # ── Job 1: Formatting ────────────────────────────────────────────────────────
   format:
     name: Formatting (rustfmt)
-    uses: DevOpsDerek/workflows/.github/workflows/lint-rust.yml@35ec3f531b5eb0f0f42f232f23e1dc5735e36c35
+    uses: DevOpsDerek/workflows/.github/workflows/lint-rust.yml@5ecebff22598835cbf5ccd7bfa07c036cce22ee9
     with:
       rust-version: "1.75.0"
       working-directory: .
